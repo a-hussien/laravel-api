@@ -1,0 +1,3 @@
+## About Repo
+
+Create this repo to practice laravel-api differant approach with JWT, JetStream and more ...

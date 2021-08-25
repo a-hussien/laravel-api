@@ -19,6 +19,8 @@ use App\Http\Controllers\Api\CategoriesController;
 //     return $request->user();
 // });
 
-Route::group(['middleware' => ['api','checksecurity'], 'namespace' => 'Api'], function(){
+Route::group(['middleware' => ['api','checksecurity', 'changelang'], 'namespace' => 'Api'], function(){
     Route::get('get-categories', [CategoriesController::class, 'index']);
+    Route::post('get-category-byid', [CategoriesController::class, 'getCategoryById']);
+    Route::patch('get-category-status', [CategoriesController::class, 'changeCategoryStatus']);
 });

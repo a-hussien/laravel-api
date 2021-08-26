@@ -28,5 +28,37 @@ Trait GeneralTrait
         ]);
     }
 
+    public function returnValidationError($code, $validator)
+    {
+        return response()->json([
+            'code' => $code,
+            'status' => false,
+            'msg' => $validator->errors()->first()
+        ]);
+    }
+
+    public function returnValidationErrorCode($validator)
+    {
+        $inputs = array_keys($validator->errors()->toArray());
+        $code = $this->getErrorCode($inputs[0]);
+
+        return $code;
+    }
+
+    public function getErrorCode($input)
+    {
+        if($input == 'name')
+        {
+            return 'F001';
+        }elseif ($input == 'email') {
+            return 'F002';
+        }elseif ($input == 'password') {
+            return 'F003';
+        }else{
+            return 'U005';
+        }
+        
+    }
+
 
 }

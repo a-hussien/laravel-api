@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CategoriesController;
@@ -23,4 +24,11 @@ Route::group(['middleware' => ['api','checksecurity', 'changelang'], 'namespace'
     Route::get('get-categories', [CategoriesController::class, 'index']);
     Route::post('get-category-byid', [CategoriesController::class, 'getCategoryById']);
     Route::patch('get-category-status', [CategoriesController::class, 'changeCategoryStatus']);
+
+    Route::group(['prefix' => 'admin', 'namespace' => 'Api\Admin'], function(){
+        Route::post('login', [AuthController::class, 'login']);
+    });
+    
 });
+
+

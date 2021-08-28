@@ -27,6 +27,8 @@ Route::group(['middleware' => ['api','checksecurity', 'changelang'], 'namespace'
 
     Route::group(['prefix' => 'admin', 'namespace' => 'Api\Admin'], function(){
         Route::post('login', [AuthController::class, 'login']);
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('profile', [AuthController::class, 'profile']);
     });
     
 });

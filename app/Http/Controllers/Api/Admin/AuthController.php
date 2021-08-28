@@ -6,6 +6,7 @@ use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -14,7 +15,7 @@ class AuthController extends Controller
     
     public function __construct()
     {
-        $this->middleware('checkAdminToken:admin-api', ['except' => ['login']]);
+        $this->middleware('auth.guard:admin-api', ['except' => ['login']]);
     }
 
     public function login(Request $request)
@@ -57,5 +58,33 @@ class AuthController extends Controller
             return $this->onError($ex->getMessage());
         }
         
+    }
+
+    public function logout(Request $request)
+    {
+        $token = $request->header('authorization');
+
+        if(!$token)
+        {
+            return $this->onError('Something went Wrong');
+        }
+        else 
+        {
+            try 
+            {
+                JWTAuth::setToken($token)->invalidate();
+
+            } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $th) {
+
+                return $this->onError('Something went Wrong');
+            }
+
+            return $this->onSuccess('logout','Logout Successfully');
+        }
+    }
+
+    public function profile()
+    {
+        return Auth::user();
     }
 }
